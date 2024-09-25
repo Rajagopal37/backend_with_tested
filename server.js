@@ -9,12 +9,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-//---------------------------
-// Configure CORS to allow requests from your frontend
+//-----------------
+
+//Configure CORS to allow requests from your frontend
 // app.use(cors({
-//     origin: 'https://your-frontend-service.com',  // Replace with your actual frontend URL
+//     origin: 'https://tkapfrdus.netlify.app/',  // Replace with frontend URL
 //   }));
-//---------------------------
+
+//-----------------------
 
 // Middleware to parse JSON
 app.use(express.json());
