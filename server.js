@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 
 //Configure CORS to allow requests from your frontend
 app.use(cors({
-    origin: 'https://tkapfrdus.netlify.app/', 
+    origin: 'https://tkapfrdus.netlify.app', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
     credentials: true,  
   }));
