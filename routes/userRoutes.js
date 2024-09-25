@@ -25,7 +25,8 @@ router.post('/signup', async (req, res) => {
     await newUser.save();
 
     // Generate JWT Token
-    const token = jwt.sign({ id: newUser._id, username: newUser.username }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    // const token = jwt.sign({ id: newUser._id, username: newUser.username }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    const token = jwt.sign({ id: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
     // Respond with user and token
     res.status(201).json({ user: newUser, token });
@@ -39,8 +40,8 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Find the user by username
-    const user = await User.findOne({ username });
+    // Find the user by email
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -52,7 +53,8 @@ router.post('/login', async (req, res) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    // const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
     // Respond with user and token
     res.json({ user, token });
