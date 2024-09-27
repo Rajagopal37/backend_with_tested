@@ -3,6 +3,9 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/authMiddleware');
+//------
+const TokenBlacklist = require('../models/TokenBlacklist');
+//-----
 
 const router = express.Router();
 
@@ -62,22 +65,33 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
-//Sign out
+//----------------
+// Logout Route
 router.post('/logout', auth, async (req, res) => {
-    // Logic to invalidate the token (e.g., store it in a blacklist)
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+
+    // Add the token to the blacklist
+    const blacklistedToken = new TokenBlacklist({ token });
+    await blacklistedToken.save();
+
     res.json({ message: 'Successfully logged out' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error logging out', error });
+  }
 });
+//-----------------
+
 
 // Get all users (protected)
-// router.get('/', auth, async (req, res) => {
-//   try {
-//     const users = await User.find();
-//     res.json(users);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Error fetching users', error });
-//   }
-// });
+router.get('/', auth, async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching users', error });
+  }
+});
 
 module.exports = router;
 
