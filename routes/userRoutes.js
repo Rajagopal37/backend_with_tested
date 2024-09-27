@@ -62,15 +62,22 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Get all users (protected)
-router.get('/', auth, async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching users', error });
-  }
+
+//Sign out
+router.post('/logout', auth, async (req, res) => {
+    // Logic to invalidate the token (e.g., store it in a blacklist)
+    res.json({ message: 'Successfully logged out' });
 });
+
+// Get all users (protected)
+// router.get('/', auth, async (req, res) => {
+//   try {
+//     const users = await User.find();
+//     res.json(users);
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error fetching users', error });
+//   }
+// });
 
 module.exports = router;
 
