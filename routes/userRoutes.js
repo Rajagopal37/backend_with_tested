@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/authMiddleware');
 //------
-const TokenBlacklist = require('../models/TokenBlacklist');
+//const TokenBlacklist = require('../models/TokenBlacklist');
 //-----
 
 const router = express.Router();
@@ -28,7 +28,7 @@ router.post('/signup', async (req, res) => {
     await newUser.save();
 
     // Generate JWT Token
-    const token = jwt.sign({ id: newUser._id, username: newUser.username }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    const token = jwt.sign({ id: newUser._id, username: newUser.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
     // const token = jwt.sign({ id: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
     // Respond with user and token
@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     // Respond with user and token
     res.json({ user, token });
@@ -65,8 +65,17 @@ router.post('/login', async (req, res) => {
   }
 });
 
+//--------------------------
+
+//Sign out
+router.post('/logout', auth, async (req, res) => {
+    // Logic to invalidate the token (e.g., store it in a blacklist)
+    res.json({ message: 'Successfully logged out' });
+});
+
 //----------------
 // Logout Route
+/*
 router.post('/logout', auth, async (req, res) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
@@ -80,6 +89,7 @@ router.post('/logout', auth, async (req, res) => {
     res.status(500).json({ message: 'Error logging out', error });
   }
 });
+*/
 //-----------------
 
 
