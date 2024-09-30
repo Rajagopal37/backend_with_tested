@@ -6,9 +6,9 @@ const User = require('../models/User');
 
 
 //-----------old--------------
-const auth = async (req, res, next) => {
+  const auth = async (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
-  console.log("Token received:", token); // For debugging, consider removing in production
+  console.log("Token received:", token); 
 
   if (!token) {
     return res.status(403).json({ message: 'No token provided' });
@@ -32,7 +32,7 @@ const auth = async (req, res, next) => {
 
 //-----------------
 /*
-const auth = async (req, res, next) => {
+ const auth = async (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
 
   if (!token) {

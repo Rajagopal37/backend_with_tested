@@ -29,7 +29,6 @@ router.post('/signup', async (req, res) => {
 
     // Generate JWT Token
     const token = jwt.sign({ id: newUser._id, username: newUser.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    // const token = jwt.sign({ id: newUser._id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
     // Respond with user and token
     res.status(201).json({ user: newUser, token });
@@ -65,17 +64,15 @@ router.post('/login', async (req, res) => {
   }
 });
 
-//--------------------------
-
-//Sign out
+//LOgout Route
 router.post('/logout', auth, async (req, res) => {
-    // Logic to invalidate the token (e.g., store it in a blacklist)
     res.json({ message: 'Successfully logged out' });
 });
 
 //----------------
-// Logout Route
 /*
+// Logout Route
+
 router.post('/logout', auth, async (req, res) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
